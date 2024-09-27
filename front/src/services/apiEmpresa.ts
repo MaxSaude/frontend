@@ -7,7 +7,7 @@ const api = axios.create({
 })
 
 export const listarTodasEmpresa = async () => {
-    return await api.get<Empresa[]>('/buscarEmpresa');
+    return await api.get<Empresa[]>('/listarTodasEmpresas');
 }
 
 export const salvarEmpresa = async (data : Omit<Empresa, 'codigo'>) => {
@@ -19,7 +19,7 @@ export const alterarEmpresa = async (codigo: string, data: Omit<Empresa, 'codigo
 }
 
 export const deletarEmpresa = async (codigo: string) => {
-    return await api.delete(`/apagarEmpresa/${codigo}`);
+    return await api.delete(`/deletarEmpresa/${codigo}`);
 }
 
 export const buscarEmpresaCodigo = async (codigo: string) => {
