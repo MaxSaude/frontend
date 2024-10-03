@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useToast } from "@chakra-ui/react";
 import { Empresa } from "../../../models/Empresa";
 import { useEffect, useState } from "react";
 import { alterarEmpresa, salvarEmpresa } from "../../../services/apiEmpresa";
@@ -17,6 +17,8 @@ const EmpresaForm: React.FC<EmpresaFormProps> = ({ empresa, isOpen, onClose }) =
         nomeFantasia: ''
     });
 
+    const toast = useToast()
+
     useEffect(() => {
         if (empresa) {
             setFormData({
@@ -32,19 +34,43 @@ const EmpresaForm: React.FC<EmpresaFormProps> = ({ empresa, isOpen, onClose }) =
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = async (ev: React.FormEvent) => {
-        ev.preventDefault();
-
+    const validacao = async (event: React.FormEvent) => {
+        event.preventDefault();
+        
         try {
             if (empresa) {
                 await alterarEmpresa(empresa.codigo, formData);
+                
+                toast({
+                    title: "Empresa alterada com sucesso!",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
             } else {
                 await salvarEmpresa(formData);
+
+                toast({
+                    title: "Empresa cadastrada com sucesso!",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
             }
             onClose();
-            window.location.reload();
+            
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+
         } catch (error) {
-            console.error(error);
+            toast({
+                title: "Ocorreu um erro",
+                description: "Não foi possível realizar a operação.",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
         }
     };
 
@@ -57,7 +83,7 @@ const EmpresaForm: React.FC<EmpresaFormProps> = ({ empresa, isOpen, onClose }) =
 
                 <ModalCloseButton />
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={validacao}>
                     <ModalBody>
                         <FormControl id="razaoSocial" mb={5}>
                             <FormLabel>Razão Social Empresa</FormLabel>
