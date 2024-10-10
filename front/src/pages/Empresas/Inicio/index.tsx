@@ -6,7 +6,6 @@ import styles from "./inicio.module.css";
 import { DeleteIcon, EditIcon, SearchIcon } from "@chakra-ui/icons";
 import EmpresaForm from "../modal/EmpresaForm";
 import Dashboard from "../../../components/Dashboard";
-import { div } from "framer-motion/client";
 
 
 const EmpresaInterface: React.FC = () => {

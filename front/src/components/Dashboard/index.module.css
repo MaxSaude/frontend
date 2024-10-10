@@ -1,7 +1,7 @@
 .box{
     background-color: #1E253F;
     height: 100vh;
-    width: 220px;
+    width: 263px;
     display: flex;
     flex-direction: column;
 }
@@ -74,5 +74,5 @@
     bottom: 10px;
     font-size: 20px;
     font-weight: bold;
-    margin-left: 8px;
+    margin-left: 13px;
 }
