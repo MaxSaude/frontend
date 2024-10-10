@@ -1,15 +1,15 @@
 
 import { createRoot } from 'react-dom/client'
 import { ChakraProvider } from '@chakra-ui/react'
-import App from './App.tsx'
-import './index.css'
 import React from 'react'
+import Empresas from './pages/Empresas/Inicio/index.tsx'
+import Dashboard from './components/Dashboard/index.tsx'
 
 createRoot(document.getElementById('root')!).render(
 
   <React.StrictMode>
     <ChakraProvider>
-      <App />
+      <Dashboard />
     </ChakraProvider>
 
   </React.StrictMode>
