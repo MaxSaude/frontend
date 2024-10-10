@@ -9,7 +9,7 @@ createRoot(document.getElementById('root')!).render(
 
   <React.StrictMode>
     <ChakraProvider>
-      <Dashboard />
+      <Empresas />
     </ChakraProvider>
 
   </React.StrictMode>

@@ -1,3 +1,9 @@
+.telaFundo{
+    background-color:#A8A8A8;
+    height: 100vh;
+    width: 100%;
+}
+
 .boxListaEmpresas{
     background-color: #262424;
     display: flex;
@@ -19,6 +25,8 @@
     font-size: 50px;
     font-weight: bold;
     color: #1F1C98;
+    margin-left: 15%;
+    margin-top: 50px;
 }
 
 .buttonCadastrar{
@@ -37,5 +45,10 @@
     flex-direction: row;
     justify-content: end;
     align-items: center;
-    margin-right: 460px;
+    margin-right: 370px;
+}
+
+.alinhamentoTelas{
+    display: flex;
+    flex-direction: row;
 }
