@@ -1,5 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouse, faFolderOpen, faStore, faDollarSign, faCoins, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import styles from "./index.module.css";
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
 const Dashboard = () => {
 
@@ -13,15 +14,36 @@ return(
             <div className={styles.linha}/>
 
             <div className={styles.boxTexts}>
-                <div>
-                    <HomeOutlinedIcon/>
-                    <button className={styles.texts}>Inicio</button>
-                </div>
-                <button className={styles.texts}>Fianceiro</button>
-                <button className={styles.texts}>Agendamentos</button>
-                <button className={styles.texts}>Preços</button>
-                <button className={styles.texts}>Empresas</button>
+                <button className={styles.espacamentos}>
+                    <FontAwesomeIcon icon={faHouse} color="#fff" style={{ marginRight: '10px' }}/>
+                    <div className={styles.texts}>Inicio</div>
+                </button>
+
+                <button className={styles.espacamentos}>
+                <FontAwesomeIcon icon={faCoins} color="#fff" style={{ marginRight: '10px' }}/>  
+                    <div className={styles.texts}>Financeiro</div>
+                </button>
+
+                <button className={styles.espacamentos}>
+                    <FontAwesomeIcon icon={faFolderOpen} color="#fff" style={{ marginRight: '10px' }}/>
+                    <div className={styles.texts}>Agendamentos</div>
+                </button>
+
+                <button className={styles.espacamentos}>
+                    <FontAwesomeIcon icon={faDollarSign} color="#fff" style={{ marginRight: '10px' }}/>
+                    <div className={styles.texts}>Preços</div>
+                </button>
+
+                <button className={styles.espacamentos}>
+                    <FontAwesomeIcon icon={faStore} color="#fff" style={{ marginRight: '10px' }}/>
+                    <div className={styles.texts}>Empresas</div>
+                </button>
             </div>
+
+            <button className={styles.buttonDesconectar}>
+                <FontAwesomeIcon icon={faArrowRightFromBracket} style={{ marginRight: '10px' }}/>
+                <div>Desconectar</div>
+            </button>
         </div>
     </>
 )
