@@ -1,7 +1,7 @@
 .box{
     background-color: #1E253F;
     height: 100vh;
-    width: 220px;
+    width: 280px;
     display: flex;
     flex-direction: column;
 }
@@ -75,4 +75,9 @@
     font-size: 20px;
     font-weight: bold;
     margin-left: 8px;
+}
+
+.alinhamentoComPags{
+    display: flex;
+    flex-direction: row;
 }
