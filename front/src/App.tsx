@@ -1,36 +1,17 @@
-
-import './App.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Home from './pages/Home';
-import Login from './pages/Login/login';
-import { Flex } from '@chakra-ui/react';
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />
-    // children: [
-    //   {
-    //     path: "/",
-    //     element: <Home />
-    //   },
-    // ],
-  },
-  {
-    path: "login",
-    element: <Login />
-  }
-]);
+import { Routes, Route } from "react-router-dom";
+import EmpresaInterface from "./pages/Empresas/Inicio";
+import Home from "./pages/Home";
+import Dashboard from "./components/Dashboard";
 
 function App() {
-
   return (
-
-    <Flex bgColor={'#2E2F36'} w="100vw" h="100vh">
-        <RouterProvider router={router} />
-
-    </Flex>
-  )
+    <Routes>
+      <Route element={<Dashboard />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/empresas" element={<EmpresaInterface />} />
+      </Route>
+    </Routes>
+  );
 }
 
-export default App
+export default App;
