@@ -19,7 +19,8 @@
     font-size: 50px;
     font-weight: bold;
     color: #1F1C98;
-    margin-left: 20px;
+    margin-left: 30px;
+    margin-top: 20px;
 }
 
 .buttonCadastrar{
@@ -38,5 +39,5 @@
     flex-direction: row;
     justify-content: end;
     align-items: center;
-    margin-right: 460px;
+    margin-right: 152px;
 }

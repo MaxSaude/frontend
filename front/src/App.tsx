@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import EmpresaInterface from "./pages/Empresas/Inicio";
 import Home from "./pages/Home";
 import Dashboard from "./components/Dashboard";
-import AgendamentosInterface from "./pages/Agendamentos";
+import AgendamentosInterface from "./pages/Agendamentos/inicio";
 
 function App() {
   return (
