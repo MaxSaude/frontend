@@ -1,33 +1,33 @@
 import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useToast } from "@chakra-ui/react";
-import { Empresa } from "../../../models/Empresa";
 import { useEffect, useState } from "react";
-import { alterarEmpresa, salvarEmpresa } from "../../../services/apiEmpresa";
+import { Agendamento } from "../../../models/Agendamento";
+import { alterarAgendamento, salvarAgendamento } from "../../../services/apiAgendamento";
 
-interface EmpresaFormProps {
-    empresa: Empresa | null;
+interface AgendamentoFormProps {
+    agendamento: Agendamento | null;
     isOpen: boolean;
     onClose: () => void;
 }
 
-const EmpresaForm: React.FC<EmpresaFormProps> = ({ empresa, isOpen, onClose }) => {
+const AgendamentoForm: React.FC<AgendamentoFormProps> = ({ agendamento, isOpen, onClose }) => {
 
-    const [formData, setFormData] = useState<Omit<Empresa, 'codigo'>>({
-        razaoSocial: '',
-        cnpj: '',
-        nomeFantasia: ''
+    const [formData, setFormData] = useState<Omit<Agendamento, 'cpf'>>({
+        nome: '',
+        nomeEmpresa: '',
+        tipoConsulta: ''
     });
 
     const toast = useToast()
 
     useEffect(() => {
-        if (empresa) {
+        if (agendamento) {
             setFormData({
-                razaoSocial: empresa.razaoSocial,
-                cnpj: empresa.cnpj,
-                nomeFantasia: empresa.nomeFantasia 
+                nome: agendamento.nome,
+                nomeEmpresa: agendamento.nomeEmpresa,
+                tipoConsulta: agendamento.tipoConsulta 
             });
         }
-    }, [empresa]);
+    }, [agendamento]);
 
     const handleChangeText = (ev: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = ev.target;
@@ -38,20 +38,20 @@ const EmpresaForm: React.FC<EmpresaFormProps> = ({ empresa, isOpen, onClose }) =
         event.preventDefault();
         
         try {
-            if (empresa) {
-                await alterarEmpresa(empresa.codigo, formData);
+            if (agendamento) {
+                await alterarAgendamento(agendamento.cpf, formData);
                 
                 toast({
-                    title: "Empresa alterada com sucesso!",
+                    title: "Agendamento alterado com sucesso!",
                     status: "success",
                     duration: 3000,
                     isClosable: true,
                 });
             } else {
-                await salvarEmpresa(formData);
+                await salvarAgendamento(formData);
 
                 toast({
-                    title: "Empresa cadastrada com sucesso!",
+                    title: "Agendamento cadastrado com sucesso!",
                     status: "success",
                     duration: 3000,
                     isClosable: true,
@@ -79,31 +79,31 @@ const EmpresaForm: React.FC<EmpresaFormProps> = ({ empresa, isOpen, onClose }) =
             <ModalOverlay />
 
             <ModalContent>
-                <ModalHeader>{empresa ? 'Alterar Empresa' : 'Cadastrar Empresa'}</ModalHeader>
+                <ModalHeader>{agendamento ? 'Alterar Agendamento' : 'Cadastrar Agendamento'}</ModalHeader>
 
                 <ModalCloseButton />
 
                 <form onSubmit={validacao}>
                     <ModalBody>
-                        <FormControl id="razaoSocial" mb={5}>
-                            <FormLabel>Razão Social Empresa</FormLabel>
-                            <Input type="text"  name="razaoSocial" value={formData.razaoSocial} onChange={handleChangeText} required/>
+                        <FormControl id="nome" mb={5}>
+                            <FormLabel>Nome pessoa</FormLabel>
+                            <Input type="text"  name="nome" value={formData.nome} onChange={handleChangeText} required/>
                         </FormControl>
 
-                        <FormControl id="cnpj" mb={5}>
-                            <FormLabel>CNPJ Empresa</FormLabel>
-                            <Input type="text" name="cnpj" value={formData.cnpj} onChange={handleChangeText} required/>
+                        <FormControl id="nomeEmpresa" mb={5}>
+                            <FormLabel>Nome da Empresa</FormLabel>
+                            <Input type="text" name="nomeEmpresa" value={formData.nomeEmpresa} onChange={handleChangeText} required/>
                         </FormControl>
 
-                        <FormControl id="nomeFantasia" mb={5}>
-                            <FormLabel>Nome Fantasia Empresa</FormLabel>
-                            <Input type="text" name="nomeFantasia" value={formData.nomeFantasia} onChange={handleChangeText} required/>
+                        <FormControl id="nomeEmpresa" mb={5}>
+                            <FormLabel>Tipo da Consulta</FormLabel>
+                            <Input type="text" name="tipoConsulta" value={formData.tipoConsulta} onChange={handleChangeText} required/>
                         </FormControl>
                     </ModalBody>
 
                     <ModalFooter>
                         <Button colorScheme="blue" mr={3} type="submit">
-                            {empresa ? 'Alterar' : 'Cadastrar'}
+                            {agendamento ? 'Alterar' : 'Cadastrar'}
                         </Button>
                         <Button onClick={onClose}>Cancelar</Button>
                     </ModalFooter>
@@ -113,4 +113,4 @@ const EmpresaForm: React.FC<EmpresaFormProps> = ({ empresa, isOpen, onClose }) =
     );
 };
 
-export default EmpresaForm;
+export default AgendamentoForm;

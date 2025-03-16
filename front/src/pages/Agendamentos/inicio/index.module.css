@@ -62,4 +62,22 @@
     margin-left: 10px;
     font-weight: bold;
     margin-top: 15px;
+    width: 600px;
+}
+
+.alinhamentoInformacoes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 1000px;
+}
+
+.infEmpresaNome{
+    display: flex;
+    flex-direction: row;
+    margin-left: 90px;
+    align-items: center;
+    color: #fff;
+    width: 300px;
 }
