@@ -70,9 +70,13 @@ const AgendamentosInterface: React.FC = () => {
             <AgendamentoForm agendamento={agendamentoAtual} onClose={handleCloseModal} isOpen={isOpen}/>
 
             <div className={styles.boxListaAgendamentos}>
-                <div className={styles.alinhamentoIconTitlleaAgend}>
-                    <img src={imagemManha} width={30} />
-                    <div className={styles.tittleListaAgendamen}>Manhã</div>
+                <div className={styles.alinhamentoIconTitlleaHorarAgend}>
+                    <div className={styles.tittleListaAgendamen}>
+                        <img src={imagemManha} width={30} />
+                        <div style={{ marginLeft: '5px'}}>Manhã</div>
+                    </div>
+
+                    <div className={styles.tittleListaAgendamen} style={{ marginRight: '10px'}}>08h-12h</div>
                 </div>
 
                 <div className={styles.alinhamentoSubtittleAgenda}>
@@ -88,7 +92,7 @@ const AgendamentosInterface: React.FC = () => {
                                 as={Flex} justifyContent='space-between'  className={styles.empresas}>
 
                             <Box w={"80"} className={styles.alinhamentoInformacoes}>   
-                                <Text fontSize="xl" color={"#fff"}>08:00</Text>   
+                                <Text fontSize="xl" color={"#fff"}>{agendamento.horario}</Text>   
 
                                 <div className={styles.infEmpresaNome}>
                                     <Text fontSize="18px" style={{width: "280px"}}>{agendamento.nomeEmpresa}</Text>
@@ -115,15 +119,18 @@ const AgendamentosInterface: React.FC = () => {
             </div>
 
             <div className={styles.boxListaAgendamentos}>
-                <div className={styles.alinhamentoIconTitlleaAgend}>
-                    <img src={imagemTarde} width={30} />
-                    <div className={styles.tittleListaAgendamen}>Tarde</div>
+                <div className={styles.alinhamentoIconTitlleaHorarAgend}>
+                    <div className={styles.tittleListaAgendamen}>
+                        <img src={imagemTarde} width={30} />
+                        <div>Tarde</div>
+                    </div>
+
+                    <div className={styles.tittleListaAgendamen} style={{ marginRight: '10px'}}>13:30h-18h</div>
                 </div>
 
                 <div className={styles.alinhamentoSubtittleAgenda}>
                     <div>Horário</div>
                     <div>Empresa/Cliente</div>
-                    <div>Processo</div>
                     <div>Exame</div>
                 </div>
             </div>

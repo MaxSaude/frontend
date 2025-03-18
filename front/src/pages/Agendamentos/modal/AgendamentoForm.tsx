@@ -14,7 +14,9 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({ agendamento, isOpen, 
     const [formData, setFormData] = useState<Omit<Agendamento, 'cpf'>>({
         nome: '',
         nomeEmpresa: '',
-        tipoConsulta: ''
+        tipoConsulta: '',
+        data: '',
+        horario: '',
     });
 
     const toast = useToast()
@@ -24,7 +26,9 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({ agendamento, isOpen, 
             setFormData({
                 nome: agendamento.nome,
                 nomeEmpresa: agendamento.nomeEmpresa,
-                tipoConsulta: agendamento.tipoConsulta 
+                tipoConsulta: agendamento.tipoConsulta,
+                data: agendamento.data,
+                horario: agendamento.horario 
             });
         }
     }, [agendamento]);
@@ -98,6 +102,16 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({ agendamento, isOpen, 
                         <FormControl id="nomeEmpresa" mb={5}>
                             <FormLabel>Tipo da Consulta</FormLabel>
                             <Input type="text" name="tipoConsulta" value={formData.tipoConsulta} onChange={handleChangeText} required/>
+                        </FormControl>
+
+                        <FormControl id="data" mb={5}>
+                            <FormLabel>Data</FormLabel>
+                            <Input type="text" name="data" value={formData.data} onChange={handleChangeText} required/>
+                        </FormControl>
+
+                        <FormControl id="horario" mb={5}>
+                            <FormLabel>Horario</FormLabel>
+                            <Input type="text" name="horario" value={formData.horario} onChange={handleChangeText} required/>
                         </FormControl>
                     </ModalBody>
 

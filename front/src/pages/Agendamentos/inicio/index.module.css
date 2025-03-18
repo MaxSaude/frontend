@@ -43,14 +43,16 @@
     margin-top: 50px;
 }
 
-.alinhamentoIconTitlleaAgend{
+.alinhamentoIconTitlleaHorarAgend{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .tittleListaAgendamen{
+    display: flex;
+    flex-direction: row;
     color: #fff;
-    margin-left: 10px;
     font-weight: bold;
 }
 
