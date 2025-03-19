@@ -106,12 +106,12 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({ agendamento, isOpen, 
 
                         <FormControl id="data" mb={5}>
                             <FormLabel>Data</FormLabel>
-                            <Input type="text" name="data" value={formData.data} onChange={handleChangeText} required/>
+                            <Input type="date" name="data" value={formData.data} onChange={handleChangeText} required/>
                         </FormControl>
 
                         <FormControl id="horario" mb={5}>
                             <FormLabel>Horario</FormLabel>
-                            <Input type="text" name="horario" value={formData.horario} onChange={handleChangeText} required/>
+                            <Input type="time" name="horario" value={formData.horario} onChange={handleChangeText} required/>
                         </FormControl>
                     </ModalBody>
 

@@ -83,3 +83,21 @@
     color: #fff;
     width: 300px;
 }
+
+.alinhamentoBoxExame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    width: 100px;
+    min-width: 100px;
+    text-align: center;
+    margin-left: 90px;
+}
+
+.textSemAgendamento {
+    font-size: 20px;
+    color: #A0AEC0;
+    margin-top: 200px;
+    text-align: center;
+}
