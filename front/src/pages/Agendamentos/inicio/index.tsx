@@ -12,23 +12,37 @@ const AgendamentosInterface: React.FC = () => {
   const [agendamentoList, setAgendamentoList] = useState<Agendamento[]>([]);
   const [agendamentoAtual, setAgendamentoAtual] = useState<Agendamento | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [dataSelecionada, setDataSelecionada] = useState<string>("");
+  const [dataAtual, setDataAtual] = useState(new Date().toISOString().split("T")[0]);
+  const [dataSelecionada, setDataSelecionada] = useState(dataAtual);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await listarTodosAgendamento();
-      const agendamentosOrdenados = response.data.sort((a, b) => {
-        const horarioA = a.horario.split(":").map(Number);
-        const horarioB = b.horario.split(":").map(Number);
-        return horarioA[0] - horarioB[0] || horarioA[1] - horarioB[1];
-      });
-      setAgendamentoList(agendamentosOrdenados);
-    };
-    fetchData();
+    const hoje = new Date();
+    hoje.setMinutes(hoje.getMinutes() - hoje.getTimezoneOffset()); 
+    setDataAtual(hoje.toISOString().split("T")[0]); 
+    setDataSelecionada(hoje.toISOString().split("T")[0]); 
   
-    const dataHoje = new Date();
-    setDataSelecionada(formatarData(dataHoje));
-  }, []);
+    const fetchData = async () => {      
+      if (!dataSelecionada) return;
+  
+      try {
+        const response = await listarTodosAgendamento();
+  
+        const agendamentosFiltrados = response.data.filter(
+          (agendamento) => agendamento.data === dataSelecionada
+        );
+  
+        const agendamentosOrdenados = agendamentosFiltrados.sort((a, b) =>
+          a.horario.localeCompare(b.horario)
+        );
+  
+        setAgendamentoList(agendamentosOrdenados);
+      } catch (error) {
+        console.error("Erro ao buscar agendamentos:", error);
+      }
+    };
+  
+    fetchData();
+  }, [dataSelecionada]);
   
 
   const cadastrarAgendamento = () => {
@@ -53,19 +67,13 @@ const AgendamentosInterface: React.FC = () => {
   const handleCloseModal = () => {
     onClose();
     setAgendamentoAtual(null);
+    setDataSelecionada(dataAtual);
   };
 
   const editarAgendamento = (agendamento: Agendamento) => {
     setAgendamentoAtual(agendamento);
     onOpen();
   };
-
-  function formatarData(data: Date): string {
-    const ano = data.getFullYear();
-    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
-    const dia = data.getDate().toString().padStart(2, '0');
-    return `${ano}-${mes}-${dia}`;
-  }
 
   const handleChangeData = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDataSelecionada(event.target.value);
@@ -82,7 +90,7 @@ const AgendamentosInterface: React.FC = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#d9d9d9', width: '100%', height: '100vh' }}>
+    <div style={{ backgroundColor: '#d9d9d9', width: '100%', height: '100vh', overflowY: 'auto'}}>
       <div className={styles.tittle}>Agendamentos</div>
 
       <div className={styles.alinhamentoCalenButt}>
