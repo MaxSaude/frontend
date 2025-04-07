@@ -11,6 +11,16 @@ interface EmpresaFormProps {
 
 const EmpresaForm: React.FC<EmpresaFormProps> = ({ empresa, isOpen, onClose }) => {
 
+    const formatCNPJ = (value: string) => {
+        return value
+          .replace(/\D/g, '') // remove tudo que não for número
+          .replace(/^(\d{2})(\d)/, '$1.$2') // coloca o ponto depois dos 2 primeiros dígitos
+          .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3') // coloca o segundo ponto
+          .replace(/\.(\d{3})(\d)/, '.$1/$2') // coloca a barra
+          .replace(/(\d{4})(\d)/, '$1-$2') // coloca o traço
+          .slice(0, 18); // limita ao tamanho do CNPJ
+      };
+
     const [formData, setFormData] = useState<Omit<Empresa, 'codigo'>>({
         razaoSocial: '',
         cnpj: '',
@@ -29,9 +39,14 @@ const EmpresaForm: React.FC<EmpresaFormProps> = ({ empresa, isOpen, onClose }) =
         }
     }, [empresa]);
 
-    const handleChangeText = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = ev.target;
-        setFormData({ ...formData, [name]: value });
+    const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        const newValue = name === "cnpj" ? formatCNPJ(value) : value;
+    
+        setFormData(prev => ({
+            ...prev,
+            [name]: newValue,
+        }));
     };
 
     const validacao = async (event: React.FormEvent) => {

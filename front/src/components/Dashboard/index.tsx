@@ -28,10 +28,10 @@ return(
                         <div className={styles.texts}>Financeiro</div>
                     </button>
 
-                    <button className={styles.espacamentos}>
+                    <Link to="/agendamentos" className={styles.espacamentos}>
                         <FontAwesomeIcon icon={faFolderOpen} color="#fff" style={{ marginRight: '10px' }}/>
                         <div className={styles.texts}>Agendamentos</div>
-                    </button>
+                    </Link>
 
                     <button className={styles.espacamentos}>
                         <FontAwesomeIcon icon={faDollarSign} color="#fff" style={{ marginRight: '10px' }}/>

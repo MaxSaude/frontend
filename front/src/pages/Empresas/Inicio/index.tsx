@@ -57,7 +57,7 @@ const EmpresaInterface: React.FC = () => {
     }
 
     return (
-        <div style={{ backgroundColor: '#A8A8A8', width: '100%', height: '100vh' }}>
+        <div style={{ backgroundColor: '#d9d9d9', width: '100%', height: '100vh', overflowY: 'auto' }}>
             <h1 className={styles.tittle}>Empresas</h1>
 
             <div className={styles.alinhamento}>               
