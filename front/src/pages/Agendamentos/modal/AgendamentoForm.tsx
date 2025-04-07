@@ -1,7 +1,9 @@
-import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useToast } from "@chakra-ui/react";
+import {  Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Agendamento } from "../../../models/Agendamento";
 import { alterarAgendamento, salvarAgendamento } from "../../../services/apiAgendamento";
+import { Empresa } from "../../../models/Empresa";
+import { listarTodasEmpresa } from "../../../services/apiEmpresa";
 
 interface AgendamentoFormProps {
     agendamento: Agendamento | null;
@@ -10,6 +12,20 @@ interface AgendamentoFormProps {
 }
 
 const AgendamentoForm: React.FC<AgendamentoFormProps> = ({ agendamento, isOpen, onClose }) => {
+
+    const [empresaList, setEmpresaList] = useState<Empresa[]>([])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await listarTodasEmpresa();
+            const empresasOrdenadas = response.data.sort((a: Empresa, b: Empresa) =>
+                a.nomeFantasia.localeCompare(b.nomeFantasia)
+            );
+            setEmpresaList(empresasOrdenadas);
+        };
+    
+        fetchData();
+    }, []);
 
     const [formData, setFormData] = useState<Omit<Agendamento, 'cpf'>>({
         nome: '',
@@ -95,11 +111,22 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({ agendamento, isOpen, 
                         </FormControl>
 
                         <FormControl id="nomeEmpresa" mb={5}>
-                            <FormLabel>Nome da Empresa</FormLabel>
-                            <Input type="text" name="nomeEmpresa" value={formData.nomeEmpresa} onChange={handleChangeText} required/>
-                        </FormControl>
+                            <FormLabel>Selecione a Empresa</FormLabel>
+                            <Select
+                                placeholder="Escolha uma empresa"
+                                value={formData.nomeEmpresa}
+                                onChange={(e) => setFormData({ ...formData, nomeEmpresa: e.target.value })}
+                                required
+                            >
+                                {empresaList.map((empresa) => (
+                                <option key={empresa.codigo} value={empresa.codigo}>
+                                    {empresa.nomeFantasia} - CNPJ: {empresa.cnpj}
+                                </option>
+                                ))}
+                            </Select>
+                            </FormControl>
 
-                        <FormControl id="nomeEmpresa" mb={5}>
+                        <FormControl id="tipoConsulta" mb={5}>
                             <FormLabel>Tipo da Consulta</FormLabel>
                             <Input type="text" name="tipoConsulta" value={formData.tipoConsulta} onChange={handleChangeText} required/>
                         </FormControl>
