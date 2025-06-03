@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faFolderOpen, faStore, faDollarSign, faCoins, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faFolderOpen, faStore, faDollarSign, faCoins, faArrowRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import styles from "./index.module.css";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
@@ -41,6 +41,11 @@ return(
                     <Link to="/empresas" className={styles.espacamentos} >
                         <FontAwesomeIcon icon={faStore} color="#fff" style={{ marginRight: '10px' }}/>
                         <div className={styles.texts}>Empresas</div>
+                    </Link>
+
+                    <Link to="/paciente" className={styles.espacamentos} >
+                        <FontAwesomeIcon icon={faUser} color="#fff" style={{ marginRight: '10px' }}/>
+                        <div className={styles.texts}>Pacientes</div>
                     </Link>
                     
                 </div>
