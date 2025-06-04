@@ -9,9 +9,10 @@ interface PacienteFormProps {
     paciente: Paciente | null;
     isOpen: boolean;
     onClose: () => void;
+    pacienteList: Paciente[];
 }
 
-const PacienteForm: React.FC<PacienteFormProps> = ({ paciente, isOpen, onClose }) => {
+const PacienteForm: React.FC<PacienteFormProps> = ({ paciente, isOpen, onClose, pacienteList }) => {
     const [empresaList, setEmpresaList] = useState<Empresa[]>([]);
     const [formData, setFormData] = useState<Omit<Paciente, 'codigo'>>({
         nome: '',
@@ -27,7 +28,7 @@ const PacienteForm: React.FC<PacienteFormProps> = ({ paciente, isOpen, onClose }
             try {
                 const response = await listarTodasEmpresa();
                 const empresasOrdenadas = response.data
-                    .filter((empresa: Empresa) => empresa.nomeFantasia) 
+                    .filter((empresa: Empresa) => empresa.nomeFantasia)
                     .sort((a: Empresa, b: Empresa) => a.nomeFantasia.localeCompare(b.nomeFantasia));
                 setEmpresaList(empresasOrdenadas);
             } catch (error) {
@@ -52,19 +53,34 @@ const PacienteForm: React.FC<PacienteFormProps> = ({ paciente, isOpen, onClose }
                 cpf: paciente.cpf,
                 contato: paciente.contato,
             });
+        } else {
+            setFormData({
+                nome: '',
+                empresaId: '',
+                cpf: '',
+                contato: '',
+            });
         }
     }, [paciente]);
 
-    // Atualiza formData ao alterar inputs
+    //Atualiza formData ao alterar inputs
     const handleChangeText = (ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = ev.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    // Validação do CPF
+    //Validação do CPF
     const validarCPF = (cpf: string): boolean => {
-        
-        return cpf.length === 11; 
+        return cpf.length === 11;
+    };
+
+    //Verifica se o CPF já existe na lista de pacientes
+    const cpfExistente = (cpf: string) => {
+        if (paciente) {
+            return pacienteList.some(p => p && p.cpf === cpf && p.codigo !== paciente.codigo);
+        }
+        //Cadastrando: verifica se já existe qualquer paciente com o mesmo CPF
+        return pacienteList.some(p => p && p.cpf === cpf);
     };
 
     const validacao = async (event: React.FormEvent) => {
@@ -73,7 +89,18 @@ const PacienteForm: React.FC<PacienteFormProps> = ({ paciente, isOpen, onClose }
         if (!validarCPF(formData.cpf)) {
             toast({
                 title: "CPF inválido",
-                description: "Por favor, insira um CPF válido.",
+                description: "O CPF informado é inválido. Verifique e tente novamente.",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
+
+        if (cpfExistente(formData.cpf)) {
+            toast({
+                title: "Este CPF já está cadastrado",
+                description: "Esse CPF já possui cadastro.",
                 status: "error",
                 duration: 5000,
                 isClosable: true,
@@ -104,7 +131,7 @@ const PacienteForm: React.FC<PacienteFormProps> = ({ paciente, isOpen, onClose }
             setTimeout(() => {
                 window.location.reload();
             }, 500);
-            
+
         } catch (error) {
             toast({
                 title: "Ocorreu um erro",

@@ -1,9 +1,11 @@
 import { Box, Button, ButtonGroup, Flex, IconButton, Input, InputGroup, InputRightElement, List, ListItem, Select, Text, useDisclosure } from "@chakra-ui/react";
 import { Paciente } from "../../../models/Paciente";
 import { deletarPaciente as deletarPacienteAPI, listarTodosPacientes } from "../../../services/apiPaciente";
+import { Empresa } from "../../../models/Empresa";
+import { listarTodasEmpresa } from "../../../services/apiEmpresa";
 import { useEffect, useState } from "react";
 import styles from "./inicio.module.css";
-import { DeleteIcon, EditIcon, SearchIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, DeleteIcon, EditIcon, SearchIcon } from "@chakra-ui/icons";
 import PacienteForm from "../modal/PacienteForm";
 
 
@@ -12,6 +14,8 @@ const PacienteInterface: React.FC = () => {
     const [pacienteList, setPacienteList] = useState<Paciente[]>([])
     const [pacienteAtual, setPacienteAtual] = useState<Paciente | null>(null)
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const [pacienteExpandido, setPacienteExpandido] = useState<string | null>(null);
+    const [empresaList, setEmpresaList] = useState<Empresa[]>([]);
 
     useEffect(() =>{
 
@@ -23,6 +27,14 @@ const PacienteInterface: React.FC = () => {
         fetchData();
 
     }, [])
+
+    useEffect(() => {
+        const fetchEmpresas = async () => {
+            const response = await listarTodasEmpresa();
+            setEmpresaList(response.data);
+        };
+        fetchEmpresas();
+    }, []);
 
     const cadastrarPaciente = () =>{
         setPacienteAtual(null)
@@ -56,6 +68,11 @@ const PacienteInterface: React.FC = () => {
         onOpen()
     }
 
+    const getNomeEmpresa = (empresaId: string) => {
+        const empresa = empresaList.find(e => e.codigo === empresaId);
+        return empresa ? empresa.nomeFantasia : "Empresa não encontrada";
+    };
+
     return (
         <div style={{ backgroundColor: '#d9d9d9', width: '100%', height: '100vh', overflowY: 'auto' }}>
             <h1 className={styles.tittle}>Pacientes</h1>
@@ -80,28 +97,42 @@ const PacienteInterface: React.FC = () => {
             </div>
 
 
-            <PacienteForm paciente={pacienteAtual} onClose={handleCloseModal} isOpen={isOpen}/>
+            <PacienteForm paciente={pacienteAtual} onClose={handleCloseModal} isOpen={isOpen} pacienteList={pacienteList}/>
 
             <div className={styles.boxListaPacientes}>
                 <List spacing={3}>
                     { pacienteList.map(paciente => (
 
-                        <ListItem key={paciente.codigo} p={5} shadow='md' borderWidth='1px' borderRadius="md" 
-                                as={Flex} justifyContent='space-between'  className={styles.pacientes}>
-
-                            <Box w={"80"}>      
-                                <Text fontSize="xl" color={"#fff"}>{paciente.nome}</Text>
-                                <Text color={"#fff"}>CPF: {paciente.cpf}</Text>
-                            </Box> 
-                            
-                            <ButtonGroup>
-                                <Button colorScheme="blue" leftIcon={<EditIcon/>}
-                                    onClick={() => editarPaciente(paciente)}>Alterar</Button>
-                                    
-                                <Button colorScheme="red" leftIcon={<DeleteIcon/>}
-                                onClick={() =>  deletarPaciente(paciente.codigo)}>Deletar</Button>
-                            </ButtonGroup>
-
+                        <ListItem key={paciente.codigo} className={styles.pacientes}>
+                            <Flex className={styles.borda} direction="column">
+                                <Flex align="center" justify="space-between">
+                                    <Button
+                                        className={styles.buttonSeta}
+                                        rightIcon={<ChevronDownIcon />}
+                                        onClick={() =>
+                                            setPacienteExpandido(
+                                                pacienteExpandido === paciente.codigo ? null : paciente.codigo
+                                            )
+                                        }
+                                    />
+                                    <Box w={"80"}>
+                                        <Text fontSize="xl" color={"#fff"}>{paciente.nome}</Text>
+                                        <Text color={"#fff"}>CPF: {paciente.cpf}</Text>
+                                    </Box>
+                                    <ButtonGroup>
+                                        <Button colorScheme="blue" leftIcon={<EditIcon />}
+                                            onClick={() => editarPaciente(paciente)}>Alterar</Button>
+                                        <Button colorScheme="red" leftIcon={<DeleteIcon />}
+                                            onClick={() => deletarPaciente(paciente.codigo)}>Deletar</Button>
+                                    </ButtonGroup>
+                                </Flex>
+                                {pacienteExpandido === paciente.codigo && (
+                                    <Box className={styles.detalhesPaciente} mt={3}>
+                                        <Text><b>Contato:</b> {paciente.contato}</Text>
+                                        <Text><b>Empresa:</b> {getNomeEmpresa(paciente.empresaId)}</Text>
+                                    </Box>
+                                )}
+                            </Flex>
                         </ListItem>
                     ))}
                 </List>
