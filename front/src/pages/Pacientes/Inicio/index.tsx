@@ -16,6 +16,8 @@ const PacienteInterface: React.FC = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [pacienteExpandido, setPacienteExpandido] = useState<string | null>(null);
     const [empresaList, setEmpresaList] = useState<Empresa[]>([]);
+    const [searchValue, setSearchValue] = useState('');
+    const [searchOption, setSearchOption] = useState('option1');
 
     useEffect(() =>{
 
@@ -71,14 +73,32 @@ const PacienteInterface: React.FC = () => {
     const getNomeEmpresa = (empresaId: string) => {
         const empresa = empresaList.find(e => e.codigo === empresaId);
         return empresa ? empresa.nomeFantasia : "Empresa não encontrada";
-    };
+    }
+
+    const pacientesFiltrados = pacienteList.filter(paciente => {
+        const valorBusca = searchValue.toLowerCase();
+        if (searchOption === 'option1') {
+            return paciente.nome.toLowerCase().includes(valorBusca);
+        }
+        if (searchOption === 'option2') {
+            return paciente.cpf.toLowerCase().includes(valorBusca);
+        }
+        if (searchOption === 'option3') {
+            return paciente.contato.toLowerCase().includes(valorBusca);
+        }
+        if (searchOption === 'option4') {
+            const empresa = empresaList.find(e => e.codigo === paciente.empresaId);
+            return empresa && empresa.nomeFantasia.toLowerCase().includes(valorBusca);
+        }
+        return true;
+    });
 
     return (
         <div style={{ backgroundColor: '#d9d9d9', width: '100%', height: '100vh', overflowY: 'auto' }}>
             <h1 className={styles.tittle}>Pacientes</h1>
 
             <div className={styles.alinhamento}>               
-                <Select placeholder='Opção de pesquisa' color='#989797' w='192px' bg='#464646'>
+                <Select placeholder='Opção de pesquisa' value={searchOption}  onChange={e => setSearchOption(e.target.value)} color='#989797' w='192px' bg='#464646'>
                     <option value='option1'>Nome</option>
                     <option value='option2'>CPF</option>
                     <option value='option3'>Contato</option>
@@ -86,7 +106,7 @@ const PacienteInterface: React.FC = () => {
                 </Select>
 
                 <InputGroup w='250px' ml='4'>
-                    <Input placeholder="Pesquisar" backgroundColor="#464646" color="white" borderRadius="md" _placeholder={{ color: '#989797' }} />
+                    <Input placeholder="Pesquisar" value={searchValue} onChange={e => setSearchValue(e.target.value)} backgroundColor="#464646" color="white" borderRadius="md" _placeholder={{ color: '#989797' }} />
                     <InputRightElement>
                         <IconButton aria-label="Pesquisar" icon={<SearchIcon />} colorScheme="whiteAlpha" />
                     </InputRightElement>
@@ -101,7 +121,7 @@ const PacienteInterface: React.FC = () => {
 
             <div className={styles.boxListaPacientes}>
                 <List spacing={3}>
-                    { pacienteList.map(paciente => (
+                    { pacientesFiltrados.map(paciente => (
 
                         <ListItem key={paciente.codigo} className={styles.pacientes}>
                             <Flex className={styles.borda} direction="column">
