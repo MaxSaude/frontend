@@ -12,6 +12,8 @@ const EmpresaInterface: React.FC = () => {
     const [empresaList, setEmpresaList] = useState<Empresa[]>([])
     const [empresaAtual, setEmpresaAtual] = useState<Empresa | null>(null)
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const [searchValue, setSearchValue] = useState('');
+    const [searchOption, setSearchOption] = useState('option1');
 
     useEffect(() =>{
 
@@ -56,19 +58,36 @@ const EmpresaInterface: React.FC = () => {
         onOpen()
     }
 
+    const EmpresasFiltrados = empresaList.filter(empresa => {
+        const valorBusca = searchValue.toLowerCase();
+        if (searchOption === 'option1') {
+            return empresa.nomeFantasia.toLowerCase().includes(valorBusca);
+        }
+        if (searchOption === 'option2') {
+            return empresa.razaoSocial.toLowerCase().includes(valorBusca);
+        }
+        if (searchOption === 'option3') {
+            const cnpjEmpresa = empresa.cnpj.replace(/\D/g, '');
+            const cnpjBusca = searchValue.replace(/\D/g, '');
+            return cnpjEmpresa.includes(cnpjBusca);
+        }
+        
+        return true;
+    });
+
     return (
         <div style={{ backgroundColor: '#d9d9d9', width: '100%', height: '100vh', overflowY: 'auto' }}>
             <h1 className={styles.tittle}>Empresas</h1>
 
             <div className={styles.alinhamento}>               
-                <Select placeholder='Opção de pesquisa' color='#989797' w='192px' bg='#464646'>
+                <Select placeholder='Opção de pesquisa' value={searchOption}  onChange={e => setSearchOption(e.target.value)} color='#989797' w='192px' bg='#464646'>
                     <option value='option1'>Nome Fantasia</option>
                     <option value='option2'>Razão Social</option>
                     <option value='option3'>CNPJ</option>
                 </Select>
 
                 <InputGroup w='250px' ml='4'>
-                    <Input placeholder="Pesquisar" backgroundColor="#464646" color="white" borderRadius="md" _placeholder={{ color: '#989797' }} />
+                    <Input placeholder="Pesquisar" value={searchValue}  onChange={e => setSearchValue(e.target.value)} backgroundColor="#464646" color="white" borderRadius="md" _placeholder={{ color: '#989797' }} />
                     <InputRightElement>
                         <IconButton aria-label="Pesquisar" icon={<SearchIcon />} colorScheme="whiteAlpha" />
                     </InputRightElement>
@@ -83,7 +102,7 @@ const EmpresaInterface: React.FC = () => {
 
             <div className={styles.boxListaEmpresas}>
                 <List spacing={3}>
-                    { empresaList.map(empresa => (
+                    { EmpresasFiltrados.map(empresa => (
 
                         <ListItem key={empresa.codigo} p={5} shadow='md' borderWidth='1px' borderRadius="md" 
                                 as={Flex} justifyContent='space-between'  className={styles.empresas}>
