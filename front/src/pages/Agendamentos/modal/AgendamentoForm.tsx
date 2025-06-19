@@ -4,6 +4,8 @@ import { Agendamento } from "../../../models/Agendamento";
 import { alterarAgendamento, salvarAgendamento } from "../../../services/apiAgendamento";
 import { Empresa } from "../../../models/Empresa";
 import { listarTodasEmpresa } from "../../../services/apiEmpresa";
+import { Paciente } from "../../../models/Paciente";
+import { listarTodosPacientes } from "../../../services/apiPaciente";
 
 interface AgendamentoFormProps {
     agendamento: Agendamento | null;
@@ -14,6 +16,7 @@ interface AgendamentoFormProps {
 const AgendamentoForm: React.FC<AgendamentoFormProps> = ({ agendamento, isOpen, onClose }) => {
 
     const [empresaList, setEmpresaList] = useState<Empresa[]>([])
+    const [pacienteList, setPacienteList] = useState<Paciente[]>([])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,6 +25,12 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({ agendamento, isOpen, 
                 a.nomeFantasia.localeCompare(b.nomeFantasia)
             );
             setEmpresaList(empresasOrdenadas);
+
+            const responsePaciente = await listarTodosPacientes();
+            const pacientesOrdenados = responsePaciente.data.sort((a: Paciente, b: Paciente) =>
+                a.nome.localeCompare(b.nome)
+            );
+            setPacienteList(pacientesOrdenados);
         };
     
         fetchData();
@@ -106,8 +115,19 @@ const AgendamentoForm: React.FC<AgendamentoFormProps> = ({ agendamento, isOpen, 
                 <form onSubmit={validacao}>
                     <ModalBody>
                         <FormControl id="nome" mb={5}>
-                            <FormLabel>Nome pessoa</FormLabel>
-                            <Input type="text"  name="nome" value={formData.nome} onChange={handleChangeText} required/>
+                            <FormLabel>Nome Paciente</FormLabel>
+                            <Select
+                                placeholder="Escolha um paciente"
+                                value={formData.nome}
+                                onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
+                                required
+                            >
+                                {pacienteList.map((paciente) => (
+                                <option key={paciente.codigo} value={paciente.codigo}>
+                                    {paciente.nome} - CPF: {paciente.cpf}
+                                </option>
+                                ))}
+                            </Select>
                         </FormControl>
 
                         <FormControl id="nomeEmpresa" mb={5}>

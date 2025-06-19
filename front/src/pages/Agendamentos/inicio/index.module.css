@@ -72,27 +72,27 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 1000px;
+    width: 1200px;
 }
 
 .infEmpresaNome{
     display: flex;
     flex-direction: row;
-    margin-left: 90px;
+    margin-left: 140px;
     align-items: center;
     color: #fff;
-    width: 300px;
+    width: 500px;
 }
 
 .alinhamentoBoxExame {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: center; 
     color: #fff;
-    width: 100px;
-    min-width: 100px;
-    text-align: center;
-    margin-left: 90px;
+    width: 150px;
+    min-width: 200px;
+    margin-right: -140px;
 }
 
 .textSemAgendamento {

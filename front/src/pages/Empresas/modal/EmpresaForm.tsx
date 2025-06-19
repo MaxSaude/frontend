@@ -24,7 +24,14 @@ const EmpresaForm: React.FC<EmpresaFormProps> = ({ empresa, isOpen, onClose }) =
     const [formData, setFormData] = useState<Omit<Empresa, 'codigo'>>({
         razaoSocial: '',
         cnpj: '',
-        nomeFantasia: ''
+        nomeFantasia: '',
+        telefone: '',
+        cidade: '',
+        bairro: '',
+        estado: '',
+        endereco: '',
+        numero: '',
+        complemento: '',
     });
 
     const toast = useToast()
@@ -34,7 +41,14 @@ const EmpresaForm: React.FC<EmpresaFormProps> = ({ empresa, isOpen, onClose }) =
             setFormData({
                 razaoSocial: empresa.razaoSocial,
                 cnpj: empresa.cnpj,
-                nomeFantasia: empresa.nomeFantasia 
+                nomeFantasia: empresa.nomeFantasia,
+                telefone: empresa.telefone,
+                cidade: empresa.cidade,
+                bairro: empresa.bairro,
+                estado: empresa.estado,
+                endereco: empresa.endereco,
+                numero: empresa.numero,
+                complemento: empresa.complemento,
             });
         }
     }, [empresa]);
@@ -93,27 +107,71 @@ const EmpresaForm: React.FC<EmpresaFormProps> = ({ empresa, isOpen, onClose }) =
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
 
-            <ModalContent>
+            <ModalContent maxW="800px">
                 <ModalHeader>{empresa ? 'Alterar Empresa' : 'Cadastrar Empresa'}</ModalHeader>
 
                 <ModalCloseButton />
 
                 <form onSubmit={validacao}>
                     <ModalBody>
-                        <FormControl id="razaoSocial" mb={5}>
-                            <FormLabel>Razão Social Empresa</FormLabel>
-                            <Input type="text"  name="razaoSocial" value={formData.razaoSocial} onChange={handleChangeText} required/>
+                        <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+                            <FormControl id="razaoSocial" mb={5}>
+                                <FormLabel>Razão Social Empresa</FormLabel>
+                                <Input type="text" placeholder="Ex: Empresa LTDA" name="razaoSocial" value={formData.razaoSocial} onChange={handleChangeText} required/>
+                            </FormControl>
+
+                            <FormControl id="nomeFantasia" mb={5}>
+                                <FormLabel>Nome Fantasia Empresa</FormLabel>
+                                <Input type="text" placeholder="Ex: Empresa" name="nomeFantasia" value={formData.nomeFantasia} onChange={handleChangeText} required/>
+                            </FormControl>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+                            <FormControl id="cnpj" mb={5}>
+                                <FormLabel>CNPJ</FormLabel>
+                                <Input type="text" placeholder="Ex: 00.000.000/0000-00" name="cnpj" value={formData.cnpj} onChange={handleChangeText} required/>
+                            </FormControl>
+
+                            <FormControl id="telefone" mb={5}>
+                                <FormLabel>Telefone</FormLabel>
+                                <Input type="text" placeholder="Ex: (00) 00000-0000" name="telefone" value={formData.telefone} onChange={handleChangeText} required/>
+                            </FormControl>
+                        </div>
+                        
+                        <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+                            <FormControl id="estado" mb={5}>
+                                <FormLabel>Estado</FormLabel>
+                                <Input type="text" placeholder="Ex: PR" name="estado" value={formData.estado} onChange={handleChangeText} required/>
+                            </FormControl>
+
+                            <FormControl id="cidade" mb={5}>
+                                <FormLabel>Cidade</FormLabel>
+                                <Input type="text" placeholder="Ex: Francisco Beltrão" name="cidade" value={formData.cidade} onChange={handleChangeText} required/>
+                            </FormControl>
+
+                            <FormControl id="bairro" mb={5}>
+                                <FormLabel>Bairro</FormLabel>
+                                <Input type="text" placeholder="Ex: Centro" name="bairro" value={formData.bairro} onChange={handleChangeText} required/>
+                            </FormControl>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+                            <FormControl id="endereco" mb={5}>
+                                <FormLabel>Endereço</FormLabel>
+                                <Input type="text" placeholder="Ex: Rua das Flores" name="endereco" value={formData.endereco} onChange={handleChangeText} required/>
+                            </FormControl>
+
+                            <FormControl id="numero" mb={5}>
+                                <FormLabel>Número</FormLabel>
+                                <Input type="text" placeholder="Ex: 00" name="numero" value={formData.numero} onChange={handleChangeText} required/>
+                            </FormControl>
+                        </div>
+
+                        <FormControl id="complemento" mb={5}>
+                            <FormLabel>Complemento</FormLabel>
+                            <Input type="text" placeholder="Ex: Sala 5, Bloco B" name="complemento" value={formData.complemento} onChange={handleChangeText} />
                         </FormControl>
 
-                        <FormControl id="cnpj" mb={5}>
-                            <FormLabel>CNPJ Empresa</FormLabel>
-                            <Input type="text" name="cnpj" value={formData.cnpj} onChange={handleChangeText} required/>
-                        </FormControl>
-
-                        <FormControl id="nomeFantasia" mb={5}>
-                            <FormLabel>Nome Fantasia Empresa</FormLabel>
-                            <Input type="text" name="nomeFantasia" value={formData.nomeFantasia} onChange={handleChangeText} required/>
-                        </FormControl>
                     </ModalBody>
 
                     <ModalFooter>

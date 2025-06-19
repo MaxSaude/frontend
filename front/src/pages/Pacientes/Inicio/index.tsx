@@ -145,14 +145,19 @@ const PacienteInterface: React.FC = () => {
                                         <Button colorScheme="red" leftIcon={<DeleteIcon />}
                                             onClick={() => deletarPaciente(paciente.codigo)}>Deletar</Button>
                                     </ButtonGroup>
+                                    
                                 </Flex>
-                                {pacienteExpandido === paciente.codigo && (
-                                    <Box className={styles.detalhesPaciente} mt={3}>
-                                        <Text><b>Contato:</b> {paciente.contato}</Text>
-                                        <Text><b>Empresa:</b> {getNomeEmpresa(paciente.empresaId)}</Text>
-                                    </Box>
-                                )}
-                            </Flex>
+                                    {pacienteExpandido === paciente.codigo && (
+                                        <Box className={styles.detalhesPaciente} mt={3}>
+                                            <Text><b>Contato:</b> {paciente.contato}</Text>
+                                            <Text><b>Endereço:</b> {paciente.endereco}, {paciente.numero} {paciente.complemento && `- ${paciente.complemento}`}</Text>
+                                            <Text><b>Bairro:</b> {paciente.bairro}</Text>
+                                            <Text><b>Cidade:</b> {paciente.cidade}</Text>
+                                            <Text><b>Estado:</b> {paciente.estado}</Text>
+                                            <Text><b>Empresa:</b> {getNomeEmpresa(paciente.empresaId)}</Text>
+                                        </Box>
+                                    )}
+                                </Flex>
                         </ListItem>
                     ))}
                 </List>

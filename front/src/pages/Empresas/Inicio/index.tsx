@@ -3,7 +3,7 @@ import { Empresa } from "../../../models/Empresa";
 import { deletarEmpresa as deletarEmpresaAPI, listarTodasEmpresa } from "../../../services/apiEmpresa";
 import { useEffect, useState } from "react";
 import styles from "./inicio.module.css";
-import { DeleteIcon, EditIcon, SearchIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, DeleteIcon, EditIcon, SearchIcon } from "@chakra-ui/icons";
 import EmpresaForm from "../modal/EmpresaForm";
 
 
@@ -14,6 +14,7 @@ const EmpresaInterface: React.FC = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [searchValue, setSearchValue] = useState('');
     const [searchOption, setSearchOption] = useState('option1');
+    const [empresaExpandida, setEmpresaExpandida] = useState<string | null>(null);
 
     useEffect(() =>{
 
@@ -104,22 +105,46 @@ const EmpresaInterface: React.FC = () => {
                 <List spacing={3}>
                     { EmpresasFiltrados.map(empresa => (
 
-                        <ListItem key={empresa.codigo} p={5} shadow='md' borderWidth='1px' borderRadius="md" 
-                                as={Flex} justifyContent='space-between'  className={styles.empresas}>
+                        <ListItem key={empresa.codigo} p={5} shadow='md' borderWidth='1px' borderRadius="md" as={Flex} justifyContent='space-between'  className={styles.empresas}>
 
-                            <Box w={"80"}>      
-                                <Text fontSize="xl" color={"#fff"}>{empresa.nomeFantasia}</Text>
-                                <Text color={"#fff"}>CNPJ: {empresa.cnpj}</Text>
-                            </Box> 
-                            
-                            <ButtonGroup>
-                                <Button colorScheme="blue" leftIcon={<EditIcon/>}
-                                    onClick={() => editarEmpresa(empresa)}>Alterar</Button>
+                            <Flex direction="column">
+
+                                <Flex align="center" justify="space-between">
+                                        <Button
+                                            className={styles.buttonSeta}
+                                            rightIcon={<ChevronDownIcon />}
+                                            onClick={() =>
+                                                setEmpresaExpandida(
+                                                    empresaExpandida === empresa.codigo ? null : empresa.codigo
+                                                )
+                                            }
+                                        /> 
+
+                                    <Box w={"80"}>
+                                        <Text fontSize="xl" color={"#fff"}>{empresa.nomeFantasia}</Text>
+                                        <Text color={"#fff"}>CNPJ: {empresa.cnpj}</Text>
+                                    </Box> 
                                     
-                                <Button colorScheme="red" leftIcon={<DeleteIcon/>}
-                                onClick={() =>  deletarEmpresa(empresa.codigo)}>Deletar</Button>
-                            </ButtonGroup>
+                                    <ButtonGroup>
+                                        <Button colorScheme="blue" leftIcon={<EditIcon/>}
+                                            onClick={() => editarEmpresa(empresa)}>Alterar</Button>
+                                            
+                                        <Button colorScheme="red" leftIcon={<DeleteIcon/>}
+                                        onClick={() =>  deletarEmpresa(empresa.codigo)}>Deletar</Button>
+                                    </ButtonGroup>
+                                </Flex>
 
+                                    {empresaExpandida === empresa.codigo && (
+                                        <Box className={styles.detalhesEmpresa} mt={3}>
+                                            <Text><b>Razão Social:</b> {empresa.razaoSocial}</Text>
+                                            <Text><b>Telefone:</b> {empresa.telefone}</Text>
+                                            <Text><b>Endereço:</b> {empresa.endereco}, {empresa.numero} {empresa.complemento && `- ${empresa.complemento}`}</Text>
+                                            <Text><b>Bairro:</b> {empresa.bairro}</Text>
+                                            <Text><b>Cidade:</b> {empresa.cidade}</Text>
+                                            <Text><b>Estado:</b> {empresa.estado}</Text>
+                                        </Box>
+                                    )}
+                            </Flex>
                         </ListItem>
                     ))}
                 </List>

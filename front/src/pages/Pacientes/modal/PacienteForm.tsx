@@ -19,6 +19,12 @@ const PacienteForm: React.FC<PacienteFormProps> = ({ paciente, isOpen, onClose, 
         empresaId: '',
         cpf: '',
         contato: '',
+        cidade: '',
+        bairro: '',
+        estado: '',
+        endereco: '',
+        numero: '',
+        complemento: '',
     });
 
     const toast = useToast();
@@ -52,6 +58,12 @@ const PacienteForm: React.FC<PacienteFormProps> = ({ paciente, isOpen, onClose, 
                 empresaId: paciente.empresaId,
                 cpf: paciente.cpf,
                 contato: paciente.contato,
+                cidade: paciente.cidade,
+                bairro: paciente.bairro,
+                estado: paciente.estado,
+                endereco: paciente.endereco,
+                numero: paciente.numero,
+                complemento: paciente.complemento,
             });
         } else {
             setFormData({
@@ -59,6 +71,12 @@ const PacienteForm: React.FC<PacienteFormProps> = ({ paciente, isOpen, onClose, 
                 empresaId: '',
                 cpf: '',
                 contato: '',
+                cidade: '',
+                bairro: '',
+                estado: '',
+                endereco: '',
+                numero: '',
+                complemento: '',
             });
         }
     }, [paciente]);
@@ -146,41 +164,79 @@ const PacienteForm: React.FC<PacienteFormProps> = ({ paciente, isOpen, onClose, 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent maxW="800px">
                 <ModalHeader>{paciente ? 'Alterar Paciente' : 'Cadastrar Paciente'}</ModalHeader>
                 <ModalCloseButton />
                 <form onSubmit={validacao}>
                     <ModalBody>
-                        <FormControl id="nome" mb={5}>
-                            <FormLabel>Nome do Paciente</FormLabel>
-                            <Input type="text" name="nome" value={formData.nome} onChange={handleChangeText} required />
-                        </FormControl>
+                        <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+                            <FormControl id="nome" mb={5}>
+                                <FormLabel>Nome do Paciente</FormLabel>
+                                <Input type="text" name="nome" value={formData.nome} onChange={handleChangeText} required />
+                            </FormControl>
 
-                        <FormControl id="empresaId" mb={5}>
-                            <FormLabel>Selecione a Empresa</FormLabel>
-                            <Select
-                                name="empresaId"
-                                placeholder="Escolha uma empresa"
-                                value={formData.empresaId}
-                                onChange={handleChangeText}
-                                required
-                            >
-                                {empresaList.map((empresa) => (
-                                    <option key={empresa.codigo} value={empresa.codigo}>
-                                        {empresa.nomeFantasia} - CNPJ: {empresa.cnpj}
-                                    </option>
-                                ))}
-                            </Select>
-                        </FormControl>
+                            <FormControl id="empresaId" mb={5}>
+                                <FormLabel>Selecione a Empresa</FormLabel>
+                                <Select
+                                    name="empresaId"
+                                    placeholder="Escolha uma empresa"
+                                    value={formData.empresaId}
+                                    onChange={handleChangeText}
+                                    required
+                                >
+                                    {empresaList.map((empresa) => (
+                                        <option key={empresa.codigo} value={empresa.codigo}>
+                                            {empresa.nomeFantasia} - CNPJ: {empresa.cnpj}
+                                        </option>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
 
-                        <FormControl id="cpf" mb={5}>
-                            <FormLabel>CPF</FormLabel>
-                            <Input type="text" name="cpf" value={formData.cpf} onChange={handleChangeText} required />
-                        </FormControl>
+                        <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+                            <FormControl id="cpf" mb={5}>
+                                <FormLabel>CPF</FormLabel>
+                                <Input type="text" name="cpf" value={formData.cpf} onChange={handleChangeText} required />
+                            </FormControl>
 
-                        <FormControl id="contato" mb={5}>
-                            <FormLabel>Contato</FormLabel>
-                            <Input type="text" name="contato" value={formData.contato} onChange={handleChangeText} required />
+                            <FormControl id="contato" mb={5}>
+                                <FormLabel>Contato</FormLabel>
+                                <Input type="text" name="contato" value={formData.contato} onChange={handleChangeText} required />
+                            </FormControl>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+                            <FormControl id="estado" mb={5}>
+                                <FormLabel>Estado</FormLabel>
+                                <Input type="text" placeholder="Ex: PR" name="estado" value={formData.estado} onChange={handleChangeText} required/>
+                            </FormControl>
+
+                            <FormControl id="cidade" mb={5}>
+                                <FormLabel>Cidade</FormLabel>
+                                <Input type="text" placeholder="Ex: Francisco Beltrão" name="cidade" value={formData.cidade} onChange={handleChangeText} required/>
+                            </FormControl>
+
+                            <FormControl id="bairro" mb={5}>
+                                <FormLabel>Bairro</FormLabel>
+                                <Input type="text" placeholder="Ex: Centro" name="bairro" value={formData.bairro} onChange={handleChangeText} required/>
+                            </FormControl>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+                            <FormControl id="endereco" mb={5}>
+                                <FormLabel>Endereço</FormLabel>
+                                <Input type="text" placeholder="Ex: Rua das Flores" name="endereco" value={formData.endereco} onChange={handleChangeText} required/>
+                            </FormControl>
+
+                            <FormControl id="numero" mb={5}>
+                                <FormLabel>Número</FormLabel>
+                                <Input type="text" placeholder="Ex: 00" name="numero" value={formData.numero} onChange={handleChangeText} required/>
+                            </FormControl>
+                        </div>
+
+                        <FormControl id="complemento" mb={5}>
+                            <FormLabel>Complemento</FormLabel>
+                            <Input type="text" placeholder="Ex: Sala 5, Bloco B" name="complemento" value={formData.complemento} onChange={handleChangeText} />
                         </FormControl>
                     </ModalBody>
                     <ModalFooter>
