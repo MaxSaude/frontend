@@ -23,20 +23,15 @@ return(
                         <div className={styles.texts}>Inicio</div>
                     </button>
 
-                    <button className={styles.espacamentos}>
-                    <FontAwesomeIcon icon={faCoins} color="#fff" style={{ marginRight: '10px' }}/>  
-                        <div className={styles.texts}>Financeiro</div>
-                    </button>
-
                     <Link to="/agendamentos" className={styles.espacamentos}>
                         <FontAwesomeIcon icon={faFolderOpen} color="#fff" style={{ marginRight: '10px' }}/>
                         <div className={styles.texts}>Agendamentos</div>
                     </Link>
 
-                    <button className={styles.espacamentos}>
+                    <Link to="/valores" className={styles.espacamentos}>
                         <FontAwesomeIcon icon={faDollarSign} color="#fff" style={{ marginRight: '10px' }}/>
                         <div className={styles.texts}>Preços</div>
-                    </button>
+                    </Link>
 
                     <Link to="/empresas" className={styles.espacamentos} >
                         <FontAwesomeIcon icon={faStore} color="#fff" style={{ marginRight: '10px' }}/>
