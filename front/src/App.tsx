@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Dashboard from "./components/Dashboard";
 import AgendamentosInterface from "./pages/Agendamentos/inicio";
 import PacienteInterface from "./pages/Pacientes/Inicio";
+import ValoresInterface from "./pages/Valores/inicio";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/empresas" element={<EmpresaInterface />} />
         <Route path="/agendamentos" element={<AgendamentosInterface />} />
         <Route path="/paciente" element={<PacienteInterface />} />
+        <Route path="/valores" element={<ValoresInterface />} />
       </Route>
     </Routes>
   );
