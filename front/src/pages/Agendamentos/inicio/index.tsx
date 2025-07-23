@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.css";
-import imagemManha from "./Sun-Fog--Streamline-Solar.png";
-import imagemTarde from "./Cloud-Sun-4--Streamline-Solar.png";
+import imagemManha from '../../../assets/imagemManha.png';
+import imagemTarde from "../../../assets/imagemTarde.png";
 import { Agendamento } from "../../../models/Agendamento";
 import { Box, Button, ButtonGroup, Flex, List, ListItem, Text, useDisclosure } from "@chakra-ui/react";
 import AgendamentoForm from "../modal/AgendamentoForm";
